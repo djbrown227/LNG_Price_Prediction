@@ -1,0 +1,174 @@
+# Natural Gas Price Prediction Models
+
+This repository contains Python code for predicting natural gas prices at Henry Hub using different machine learning models. The dataset used is the Henry Hub Natural Gas Spot Price dataset.
+
+## Dataset
+
+The dataset used for training and testing the models is the Henry Hub Natural Gas Spot Price dataset, sourced from [source link].
+
+## Models
+
+### 1. Baseline Model
+
+This model serves as a simple baseline for comparison with more complex models. It predicts natural gas prices using the mean price of the training data.
+
+#### Implementation Details:
+
+- Features:
+  - Lagged prices (up to 5 days)
+  - Moving average of prices (window size = 5 days)
+  - Day of the week
+  - Month
+  - Year
+
+- Evaluation Metric: Root Mean Squared Error (RMSE)
+
+### 2. Gradient Boosting Machine Model
+
+This model utilizes the Gradient Boosting Machine algorithm for predicting natural gas prices. Hyperparameters are tuned using GridSearchCV.
+
+#### Implementation Details:
+
+- Features:
+  - Lagged prices (up to 5 days)
+  - Moving average of prices (window size = 5 days)
+  - Day of the week
+  - Month
+  - Year
+
+- Preprocessing:
+  - Standardization of features
+
+- Evaluation Metric: Root Mean Squared Error (RMSE)
+
+### 3. Long Short-Term Memory (LSTM) Model
+
+This model utilizes a Long Short-Term Memory (LSTM) neural network for predicting natural gas prices. Hyperparameters are tuned using GridSearchCV.
+
+#### Implementation Details:
+
+- Features:
+  - Lagged prices (up to 5 days)
+  - Moving average of prices (window size = 5 days)
+  - Day of the week
+  - Month
+  - Year
+
+- Preprocessing:
+  - Normalization of features
+
+- Model Architecture:
+  - LSTM layers with adjustable units
+  - Dense output layer
+
+- Evaluation Metric: Root Mean Squared Error (RMSE)
+
+### 4. Random Forest Model
+
+This model utilizes the Random Forest algorithm for predicting natural gas prices. Hyperparameters are tuned using GridSearchCV.
+
+#### Implementation Details:
+
+- Features:
+  - Lagged prices (up to 5 days)
+  - Moving average of prices (window size = 5 days)
+  - Day of the week
+  - Month
+  - Year
+
+- Preprocessing:
+  - Standardization of features
+
+- Evaluation Metric: Root Mean Squared Error (RMSE)
+
+### 5. Support Vector Regression (SVR) Model
+
+This model utilizes the Support Vector Regression algorithm for predicting natural gas prices. Hyperparameters are tuned using GridSearchCV.
+
+#### Implementation Details:
+
+- Features:
+  - Lagged prices (up to 5 days)
+  - Moving average of prices (window size = 5 days)
+  - Day of the week
+  - Month
+  - Year
+
+- Preprocessing:
+  - Standardization of features
+
+- Evaluation Metric: Root Mean Squared Error (RMSE)
+### Ensemble Models
+
+Ensemble models are powerful techniques that combine the predictions of multiple individual models to produce a single prediction. They often result in better performance compared to any individual model alone. In your code, you've implemented an ensemble model that combines the predictions of Gradient Boosting Regressor (GBM), Random Forest Regressor (RF), Support Vector Regressor (SVR), and a Long Short-Term Memory (LSTM) neural network model.
+
+Here's a breakdown of what you've done:
+
+1. **Data Preparation**:
+   - You loaded the dataset and performed feature engineering to create lag features, rolling mean, and extract temporal features like day of the week, month, and year.
+   - For the LSTM model, you scaled the target variable and combined it with price differences.
+
+2. **Model Training**:
+   - You trained individual models: GBM, RF, SVR, and LSTM, using the preprocessed data.
+
+3. **Model Evaluation**:
+   - You evaluated each model individually using metrics such as RMSE (Root Mean Squared Error), MAE (Mean Absolute Error), MAPE (Mean Absolute Percentage Error), and R2 Score.
+
+4. **Ensemble Model**:
+   - You combined the predictions of the individual models using a simple averaging technique.
+   - Then, you evaluated the performance of the ensemble model using the same metrics as for individual models.
+
+5. **Result Analysis**:
+   - You compared the performance of individual models with the ensemble model across different metrics.
+
+Overall, your code demonstrates a comprehensive approach to building and evaluating ensemble models. It's worth noting that ensemble methods like this are widely used in practice due to their ability to improve predictive accuracy and generalization.
+
+Both stacking and averaging are ensemble techniques used to combine the predictions of multiple individual models into a single prediction. While they share the same goal of improving predictive performance, they differ in their approach and implementation.
+
+### Averaging vs Stacking Ensemble
+
+**Averaging Ensemble:**
+
+Averaging, or simple averaging, is one of the most straightforward ensemble techniques. It involves taking the average of predictions generated by multiple base models. Here's how it works:
+
+1. **Model Training:** Train multiple base models using different algorithms or variations of the same algorithm on the same dataset.
+   
+2. **Prediction Generation:** After training, each base model generates predictions for new data.
+
+3. **Combination:** Combine these predictions by averaging them. This can be a simple arithmetic mean or weighted mean, where each model's prediction is given a different weight.
+
+4. **Final Prediction:** The averaged prediction is considered the final output of the ensemble model.
+
+**Advantages of Averaging:**
+
+- Simplicity: Averaging is easy to implement and understand, making it a popular choice for ensemble modeling.
+- Robustness: It can help reduce overfitting and variance, especially when combining diverse models.
+- Interpretability: Since it relies on simple averaging, the interpretation of the final prediction is straightforward.
+
+**Stacking Ensemble:**
+
+Stacking, also known as stacked generalization, is a more complex ensemble technique that involves training a meta-model to learn how to combine the predictions of base models. Here's how it works:
+
+1. **Model Training:** Similar to averaging, train multiple base models on the same dataset.
+
+2. **Out-of-Fold Predictions:** Instead of directly combining predictions, generate out-of-fold predictions for each base model. This involves splitting the training data into multiple folds, training each base model on a subset of folds, and predicting on the remaining fold. Repeat this process for each fold.
+
+3. **Meta-Model Training:** Train a meta-model (also known as a blender or second-level model) on the out-of-fold predictions generated by the base models. The meta-model learns to combine these predictions to produce the final output.
+
+4. **Final Prediction:** Use the trained meta-model to predict on new data.
+
+**Advantages of Stacking:**
+
+- Model Agnosticism: Stacking can combine predictions from different types of models, allowing it to capture diverse patterns in the data.
+- Higher Accuracy: By learning to combine predictions, stacking often yields higher predictive accuracy compared to simple averaging.
+- Flexibility: Stacking allows for more sophisticated combinations of models, such as using different meta-learners or multiple layers of stacking.
+
+**Comparison:**
+
+- **Complexity:** Averaging is simpler to implement and understand, making it a good starting point for ensemble modeling. Stacking, on the other hand, requires additional steps and may involve more complexity.
+  
+- **Performance:** Stacking often outperforms simple averaging, especially when the base models are diverse and complementary. It can capture more complex patterns in the data and adapt to different modeling scenarios.
+
+- **Interpretability:** Averaging provides straightforward interpretation since it directly combines predictions. Stacking, however, may be less interpretable due to the involvement of a meta-model.
+
+In summary, while averaging offers simplicity and interpretability, stacking provides greater flexibility and potential for improved performance, especially in complex modeling tasks. The choice between the two depends on factors such as the dataset, the diversity of base models, and the desired level of complexity.
